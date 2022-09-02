@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>dom-navigation</title>
+</head>
+<body>
+    <div>시작</div>
+
+<ul>
+    <li>
+        <b>항목</b>
+    </li>
+</ul>
+
+<div>끝</div>
+
+    <table id ="table">
+        <tr>
+            <td>1</td><td>2</td>
+        </tr>
+        <tr>
+            <td>3</td><td>4</td>
+        </tr>
+    </table>
+
+<script>
+    let childNodes = document.body.childNodes; // 배열이 아닌 반복가능한 유사 배열 객체인 컬렉션이다.
+    console.log(document.body.firstChild === childNodes[0]); // true
+    console.log(document.body.lastChild === childNodes[childNodes.length - 1]); // true
+
+    // for..of 사용 가능
+    for (let node of childNodes) {
+        console.log(node);
+    }
+
+    // 배열이 아니기 때문에 배열 메서드는 사용할 수 없다.
+    console.log(childNodes.filter === undefined); // true
+
+    // 배열처럼 사용하려면 Array.from 을 사용
+    console.log(Array.from(childNodes).filter !== undefined); // true
+
+    // 모든 탐색용 프로퍼티는 읽기 전용이다.
+    // childNodes[i] = ... 의 형태로 자식노드를 교체하는 것이 불가능하다
+
+    // DOM 컬렉션은 살아있기 때문에 자동으로 DOM 의 현재 상태를 반영한다.
+
+    console.log(document.body.parentNode === document.documentElement); // <body> 의 부모 노드는 <html> 이다.
+
+    console.log(document.head.nextSibling); // 다음 형제노드
+    console.log(document.body.previousSibling); // 이전 형제노드
+
+
+    for (let elem of document.body.children) { // 요소 노드만 출력
+        console.log(elem);
+    }
+
+
+    // 테이블 탐색
+    let rows = table.rows; // tr 요소를 담은 컬렉션
+
+    let cell = rows[0].cells[1]; // tr.cells 는 주어진 tr 안의 모든 td , th 를 담은 컬렉션을 반환
+    cell.style.backgroundColor = 'red';
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom-attributes-and-properties</title>
+</head>
+<body>
+  <div id="div" something="non-standard">
+  </div>
+
+  <input/>
+
+  <input id="checkbox" type="checkbox" checked/> checkbox
+  <div id="div1" style="color:red;font-size:120%">Hello</div>
+
+  <p id="p" data-about="Elephants"></p>
+
+<script>
+  // DOM 내부에 프로퍼티를 추가
+  document.body.myData = {
+    name : 'Caesar',
+    title: 'Imperator',
+  };
+
+  document.body.sayTagName = function() {
+    console.log(this.tagName);
+  }
+
+  console.log(document.body.myData.title);
+  document.body.sayTagName();
+
+  console.log(div.getAttribute('something'));
+
+  let input = document.querySelector('input');
+
+  // 프로퍼티 - 속성 동기화 1
+  input.setAttribute('id', 'id'); // 속성 추가 => 프로퍼티 갱신
+  console.log(input.id);
+
+  input.id = "newId"; // 프로퍼티 변경 => 속성 갱신
+  console.log(input.getAttribute('id'));
+
+  // 프로퍼티 - 속성 동기화 2
+  input.setAttribute('value', 'text');
+  console.log(input.value);
+
+  input.value = "newValue";
+  console.log(input.getAttribute('value')); // 프로퍼티는 변경되었지만, 속성이 갱신되지 않음
+
+  // DOM 프로퍼티 값의 타입
+  console.log(checkbox.getAttribute('checked')); // 속성값 : 빈 문자열
+  console.log(checkbox.checked); // 프로퍼티 값 : true
+
+  console.log(div1.getAttribute('style')); // color:red;font-size:120%
+  console.log(div1.style); // [object CSSStyleDeclaration]
+  console.log(div1.style.color); // red
+
+  // 비표준속성 dataset
+  console.log(p.dataset.about); // data-about인 속성이 있다면...
+
+
+</script>
+</body>
+</html>

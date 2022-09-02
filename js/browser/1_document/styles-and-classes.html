@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>styles-and-classes</title>
+</head>
+<body>
+
+<div id="main" class="main page">
+d
+</div>
+
+<script>
+    // className , classList
+    console.log(main.className);
+
+    // elem.classList.add/remove("class") – class를 추가하거나 제거
+    // elem.classList.toggle("class") – class가 존재할 경우 class를 제거하고, 그렇지 않은 경우엔 추가
+    // elem.classList.contains("class") – class 존재 여부에 따라 true/false를 반환
+
+    main.classList.add('article');
+    console.log(main.className);
+
+    // 요소의 스타일
+    main.style.backgroundColor = 'skyblue';
+
+</script>
+</body>
+</html>

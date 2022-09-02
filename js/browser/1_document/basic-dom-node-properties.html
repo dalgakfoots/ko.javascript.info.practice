@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>basic-dom-node-properties</title>
+</head>
+<body>
+<p>p 태그</p>
+<div>div 태그</div>
+
+<div id="elem">Hello <b>World</b></div>
+
+<div id="news">
+  <h1>!!!주요뉴스!!!</h1>
+  <p>화성인이 지구를 침공했습니다</p>
+</div>
+
+<div id="elem1"></div>
+<div id="elem2"></div>
+
+<div id="hidden"> hidden 프로퍼티 사용 </div>
+
+<input type="text" id="element" value="value"/>
+
+<script>
+  /*
+  * HTMLElement : HTML 요소 노드의 베이스 역할을 하는 클래스
+  * HTMLInputElement : <input> 요소에 대응하는 클래스
+  * HTMLBodyElement : <body> 요소에 대응하는 클래스
+  * HTMLAnchorElement : <a> 요소에 대응하는 클래스
+  * ....
+  * (이 밖에 다른 클래스가 많음)
+  *
+  * */
+
+  console.log(news.textContent);
+  // innerHTML 과는 다르게 순수텍스트만 반환된다.
+
+  elem1.innerHTML = '<b>test</b>'; // HTML 형태로 저장된다.
+  elem2.textContent = '<b>test</b>'; // 텍스트 형태로 저장된다.
+
+  hidden.hidden = true; // 기술적으로 style="display:none" 과 동일하다.
+
+  console.log(element.type);
+  console.log(element.id);
+  console.log(element.value);
+
+</script>
+</body>
+</html>
