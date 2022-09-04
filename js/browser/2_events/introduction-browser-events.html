@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>introduction-browser-events</title>
+</head>
+<body>
+<button id="elem">CLICK ME</button>
+
+
+<script>
+    class Menu { // 이벤트가 발생하면 객체에 구현한 handleEvent 메서드가 호출된다.
+        handleEvent(event) {
+            let method = `on${event.type[0].toUpperCase()}${event.type.slice(1)}`;
+            this[method](event);
+        }
+
+        onMousedown() {
+            elem.innerHTML = '마우스 버튼을 눌렀습니다.';
+        }
+
+        onMouseup() {
+            elem.innerHTML += ' 그리고 버튼을 뗐습니다.';
+        }
+    }
+
+    let menu = new Menu();
+
+    elem.addEventListener('mousedown', menu);
+
+    elem.addEventListener('mouseup', menu);
+</script>
+</body>
+</html>
