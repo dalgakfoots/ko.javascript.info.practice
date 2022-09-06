@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form-elements</title>
+</head>
+<body>
+<form name="my">
+  <input name="one" value="1"/>
+  <input name="two" value="2"/>
+</form>
+
+<form name="radios">
+  <input type="radio" name="age" value="10">
+  <input type="radio" name="age" value="20">
+</form>
+
+<form name="form">
+  <input type="text" name="login">
+</form>
+
+<form name="inputs">
+  <input name="nuval"/>
+  <textarea name="nuarea"></textarea>
+
+  <select id="select">
+    <option value="apple">Apple</option>
+    <option value="pear">Pear</option>
+    <option value="banana">Banana</option>
+  </select>
+
+  <select id="select2" multiple>
+    <option value="blues" selected>Blues</option>
+    <option value="rock" selected>Rock</option>
+    <option value="classic">Classic</option>
+  </select>
+</form>
+
+<script>
+
+  /*
+  * 폼은 특수한 컬렉션인 document.forms 의 구성원이다.
+  * */
+
+  let form = document.forms.my;
+  let elem = form.elements.one;
+
+  console.log(elem.value);
+
+  // form.elements[name] 은 컬렉션이 될 수 있다.
+
+  let radios = document.forms.radios;
+  let ageElems = radios.elements.age;
+
+  console.log(ageElems[0]);
+
+  // 역참조
+  let login = document.forms.form.elements.login;
+  console.log(login.form);
+
+  // 폼요소 : input / textarea
+
+  let inputs = document.forms.inputs;
+  let input = inputs.elements.nuval;
+  let textarea = inputs.elements.nuarea;
+
+  input.value = "New value";
+  textarea.value = "New text"; // innerHTML 은 사용하지 말 것.
+
+  // 폼요소 : select / option
+  let select = document.querySelector('#select');
+  // 아래 세가지 코드는 모두 실행결과가 같다.
+  select.options[2].selected = true;
+  select.selectedIndex = 2;
+  select.value = 'banana';
+
+  // multiple select 선택한 값 전체
+  let selected = Array.from(select.options)
+          .filter(option => option.selected)
+          .map(option => option.value);
+
+  console.log(selected);
+
+
+</script>
+</body>
+</html>
