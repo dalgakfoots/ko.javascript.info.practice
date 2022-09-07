@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>events-change-input</title>
+</head>
+<body>
+
+<!--이벤트 : change-->
+<input type="text" onchange="console.log(this.value)"> <!--글자를 입력하는 동안에는 이벤트가 발생되지 않음-->
+<input type="button" value="버튼"> <!--포커스를 다른 곳으로 옮기는 순간 change 이벤트가 발생한다.-->
+
+<select onchange="console.log(this.value)"> <!--select , checkbox , radio 는 선택 값이 변경된 직후에 이벤트 발생-->
+  <option value="">선택하세요.</option>
+  <option value="1">옵션 1</option>
+  <option value="2">옵션 2</option>
+  <option value="3">옵션 3</option>
+</select>
+
+<!--이벤트 : input-->
+<input type="text" id="input"> oninput: <span id="result"></span>
+<script>
+  let input = document.getElementById('input');
+  let result = document.getElementById('result')
+  input.addEventListener('input', () => { <!--사용자가 값을 수정할 때마다 발생한다.-->
+    result.innerHTML = input.value;
+  });
+</script>
+
+<!--이벤트 : cut, copy , paste-->
+<input type="text" id="copy">
+<script>
+  let copy = document.getElementById('copy');
+  copy.addEventListener('cut' , foo);
+  copy.addEventListener('copy', foo);
+  copy.addEventListener('paste', foo);
+
+  function foo(e) {
+    console.log(`${e.type} - ${e.clipboardData.getData('text/plain')}`);
+    return false;
+  }
+
+</script>
+
+</body>
+</html>

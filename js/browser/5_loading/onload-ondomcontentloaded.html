@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>onload-ondomcontentloaded</title>
+</head>
+<body>
+<img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
+<script>
+  /*
+  * HTML 문서의 생명주기
+  * DOMContentLoaded : 브라우저가 HTML 을 전부 읽고 DOM 트리를 완성하는 즉시 발생한다. 이미지, 스타일시트 등의 기타 자원은 기다리지 않음
+  * load : DOM 트리의 완성 및 이미지, 스타일시트 등의 외부 자원도 모두 불러오는 것이 끝났을 때 발생한다.
+  * beforeunload / unload : 사용자가 페이지를 떠날 때 발생한다.
+  * */
+
+  function ready() {
+    console.log('DOM이 준비되었습니다!');
+    console.log(`이미지 사이즈: ${img.offsetWidth}x${img.offsetHeight}`);
+  }
+
+  window.onload = () => {
+      console.log('페이지 전체가 로드되었습니다.');
+      console.log(`이미지 사이즈: ${img.offsetWidth}x${img.offsetHeight}`);
+  }
+  document.addEventListener('DOMContentLoaded', ready); // 이미지가 로드 되기 전이므로 사이즈는 0x0 으로 출력됨
+
+
+  let analyticsData = { /* 분석 정보가 담긴 객체 */ };
+
+  window.addEventListener("unload", function() { // 사용자가 페이지를 떠날 때 실행된다.
+      navigator.sendBeacon("/analytics", JSON.stringify(analyticsData)); // 분석정보를 서버로 보내는 메서드 (백그라운드에서 전송함.)
+      // 요청은 POST 메서드로 전송됨
+      // 대게 문자열 형태의 객체가 전송된다.
+      // 전송데이터는 64kb를 넘을 수 없음.
+  });
+
+  // window.onbeforeunload = function () { // 사용자가 페이지를 떠나기 전, 추가 확인을 요청한다
+  //     return false;
+  // }
+
+  // readyState
+  console.log(document.readyState); // loading | interactive | complete
+  document.addEventListener('readystatechange', () => console.log(document.readyState));
+
+</script>
+</body>
+</html>

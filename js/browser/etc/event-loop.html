@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event-loop</title>
+</head>
+<body>
+<button id="before">before</button>
+<button id="after">after</button>
+<button id="after2">after2</button>
+<hr/>
+
+<div id="progress"></div>
+<script> /*프로그레스바*/
+  let i = 0;
+
+  function count() {
+    // 무거운 작업을 쪼갠 후 이를 수행
+    do {
+      i++;
+      progress.innerHTML = i;
+    } while (i % 1e3 != 0);
+
+    if (i < 1e7) {
+      setTimeout(count);
+    }
+
+  }
+  count();
+</script>
+
+<script>
+
+  let _before = document.getElementById('before');
+  _before.addEventListener('click', before);
+  let _after = document.getElementById('after');
+  _after.addEventListener('click', after);
+  let _after2 = document.getElementById('after2');
+  _after2.addEventListener('click', after2);
+
+  /*CPU 소모가 많은 태스크 쪼개기*/
+  //before
+  function before(){ // 브라우저가 멈춤
+    let i = 0;
+
+    let start = Date.now();
+
+    function count() {
+
+      // CPU 소모가 많은 무거운 작업을 수행
+      for (let j = 0; j < 1e9; j++) {
+        i++;
+      }
+
+      alert("처리에 걸린 시간: " + (Date.now() - start) + "ms");
+    }
+
+    count();
+  }
+
+  function after() { // 숫자를 세는 도중에도 브라우저가 멈추지 않음
+    let i = 0;
+
+    let start = Date.now();
+
+    function count() {
+
+      do {
+        i++;
+      } while (i % 1e6 !== 0);
+
+      if (i === 1e9) {
+        alert("처리에 걸린 시간: " + (Date.now() - start) + "ms");
+      } else {
+        setTimeout(count); // 새로운 호출을 스케줄링 (**)
+      }
+    }
+    count();
+  }
+
+  function after2() {
+    let i = 0;
+
+    let start = Date.now();
+
+    function count() {
+
+      // 스케줄링 코드를 함수 앞부분으로 옮김
+      if (i < 1e9 - 1e6) {
+        setTimeout(count); // 새로운 호출을 스케줄링함
+      }
+
+      do {
+        i++;
+      } while (i % 1e6 !== 0);
+
+      if (i === 1e9) {
+        alert("처리에 걸린 시간: " + (Date.now() - start) + "ms");
+      }
+
+    }
+
+    count();
+  }
+
+</script>
+</body>
+</html>
