@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch</title>
+</head>
+<body>
+
+<script>
+  /* fetch() 기본문법 */
+  // let promise = fetch(url , [options])
+
+  // < 응답 진행과정 >
+  // 1. 서버에서 응답'헤더'를 받자마자, fetch 호출 시 반환 받은 promise 가
+  // 내장 클래스 Response 의 인스턴스와 함께 이행 상태가 된다.
+
+  // HTTP 상태는 응답 프로퍼티로 확인할 수 있다.
+  // status : HTTP 상태코드
+  // ok : 불린값 , 200~299 일 경우 true
+
+  // 2. 추가메서드를 호출해 응답'본문'을 받는다.
+  // response.text() : 응답을 읽고 텍스트로 반환
+  // response.json() : 응답을 JSON 형태로 파싱
+  // ...
+  ( async () => {
+            let url = 'https://api.github.com/repos/javascript-tutorial/ko.javascript.info/commits';
+            let response = await fetch(url);
+            let commits = await response.json();
+
+            console.log(commits[0].author.login);
+          }
+  )();
+
+  // 위와 같은 코드임
+
+  fetch('https://api.github.com/repos/javascript-tutorial/ko.javascript.info/commits')
+          .then(response => response.json())
+          .then(commits => console.log(commits[0].author.login));
+
+  // 응답 헤더 추출
+  ( async () => {
+    let response = await fetch('https://api.github.com/repos/javascript-tutorial/ko.javascript.info/commits');
+
+    for (let [key, value] of response.headers) {
+      console.log(`${key} = ${value}`);
+    }
+  })();
+
+  // 요청 헤더 설정
+
+  /*
+  let response = fetch(url , {
+    headers : {
+      Authentication : 'secret'
+    }
+  });
+   */
+
+  // POST 요청
+
+  let user = {
+    name : 'John',
+    surname : 'Smith',
+  };
+
+  (async() => {
+    // let response = await fetch('/' , {
+    //   method : 'POST',
+    //   headers : {
+    //     'Content-Type' : 'application/json;charset=utf-8',
+    //   },
+    //   body: JSON.stringify(user),
+    // });
+    //
+    // let result = await response.json();
+    // console.log(result.message);
+  })(); // POST 요청시 요청 본문이 문자열 일 때, Content-Type 헤더가 text/plain;charset=UTF-8 로 기본 설정 된다.
+
+
+</script>
+</body>
+</html>

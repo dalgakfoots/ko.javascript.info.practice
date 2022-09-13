@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>custom-elements</title>
+</head>
+<body>
+
+<time-formatted datetime="2019-12-01"
+                year="numeric" month="long" day="numeric"
+                hour="numeric" minute="numeric" second="numeric"
+                time-zone-name="short">
+
+</time-formatted>
+<hr>
+<time-formatted-new id="elem" hour="numeric" minute="numeric" second="numeric"></time-formatted-new>
+<hr>
+<button is="hello-button">Click me</button>
+<button is="hello-button" disabled>disabled</button>
+
+<script>
+
+  class MyElement extends HTMLElement {
+
+    constructor() {
+      super();
+      // 요소 생성됨
+    }
+
+    connectedCallback() {
+      // 요소가 문서에 추가될 때, 브라우저가 이 메서드를 호출한다.
+      // 요소가 반복적으로 추가 되거나 제거 될 시, 많은 호출이 발생할 수 있다.
+    }
+
+    disconnectedCallback() {
+      // 요소가 문서에서 제거될 때, 브라우저가 이 메서드를 호출한다.
+      // 요소가 반복적으로 추가 되거나 제거 될 시, 많은 호출이 발생할 수 있다.
+    }
+
+    static get observedAttributes() {
+      return [ /* 변경을 감지할 속성의 이름들로 이루어진 배열 */ ];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      // 위 배열에 존재하는 속성이 변경될 시 호출된다.
+    }
+
+    adoptedCallback() {
+      // 새로운 문서에 요소가 이동될 때 호출된다.
+      // document.adoptNode 시 일어난다. 매우 드물게 사용된다.
+    }
+  }
+
+  // 브라우저에 커스텀 요소를 등록한다.
+  customElements.define('my-element' , MyElement); // 커스텀 요소의 이름에는 하이픈 ('-') 이 반드시 포함되어야 한다.
+
+  /***********************************************************************/
+
+  class TimeFormatted extends HTMLElement {
+    connectedCallback() {
+      let date = new Date(this.getAttribute('datetime') || Date.now());
+
+      this.innerHTML = new Intl.DateTimeFormat('default', {
+        year: this.getAttribute('year') || undefined,
+        month: this.getAttribute('month') || undefined,
+        day: this.getAttribute('day') || undefined,
+        hour: this.getAttribute('hour') || undefined,
+        minute: this.getAttribute('minute') || undefined,
+        second: this.getAttribute('second') || undefined,
+        timeZoneName: this.getAttribute('time-zone-name') || undefined,
+      }).format(date);
+    }
+  }
+
+  customElements.define('time-formatted', TimeFormatted);
+
+  /***********************************************************************/
+
+  class TimeFormattedNew extends HTMLElement {
+
+    render() {
+      let date = new Date(this.getAttribute('datetime') || Date.now());
+
+      this.innerHTML = new Intl.DateTimeFormat("default", {
+        year: this.getAttribute('year') || undefined,
+        month: this.getAttribute('month') || undefined,
+        day: this.getAttribute('day') || undefined,
+        hour: this.getAttribute('hour') || undefined,
+        minute: this.getAttribute('minute') || undefined,
+        second: this.getAttribute('second') || undefined,
+        timeZoneName: this.getAttribute('time-zone-name') || undefined,
+      }).format(date);
+    }
+
+    connectedCallback() {
+      if(!this.rendered) {
+        this.render();
+        this.rendered = true;
+      }
+    }
+
+    static get observedAttributes() {
+      return ['datetime', 'year', 'month', 'day', 'hour', 'minute', 'second', 'time-zone-name'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      this.render();
+    }
+  }
+
+  customElements.define('time-formatted-new', TimeFormattedNew);
+
+  /***********************************************************************/
+
+  // 커스텀 빌트인 요소
+
+  class HelloButton extends HTMLButtonElement {
+    constructor() {
+      super();
+      this.addEventListener('click', () => console.log('Hello!'));
+    }
+  }
+
+  customElements.define('hello-button' , HelloButton , {extends: 'button'});
+</script>
+
+<script>
+  setInterval(() => elem.setAttribute('datetime', new Date()), 1000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>formdata</title>
+</head>
+<body>
+
+<form id="formElem">
+  <input type="text" name="name" value="sw"/>
+  <input type="submit">
+</form>
+
+<script>
+
+  // FormData 는 폼을 쉽게 보내도록 도와주는 객체이다.
+
+  // HTML 에 form 요소가 있는 경우,
+  // let formData = new FormData([form]);
+  // 위와 같은 코드를 작성하면 해당 폼 요소의 필드 전체가 자동 반영된다.
+
+  // 전송 시 Content-Type 은 multipart/form-data 로 지정된다.
+
+  // 서버 관점에서는 FormData 를 사용한 방식과 일반 폼 전송 방식에 차이가 없다.
+
+  formElem.onsubmit = async (e) => {
+    e.preventDefault();
+  //
+  //   let response = await fetch ('/', {
+  //     method : 'POST',
+  //     body : new FormData(formElem);
+  //   });
+  //
+  //   let result = await response.json();
+  //
+  //   console.log(result.message);
+  }
+
+
+
+</script>
+</body>
+</html>
